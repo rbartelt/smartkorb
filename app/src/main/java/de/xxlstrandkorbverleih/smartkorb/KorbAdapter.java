@@ -42,6 +42,10 @@ public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
         notifyDataSetChanged();
     }
 
+    public Korb getKorbAt(int position) {
+        return körbe.get(position);
+    }
+
     class KorbHolder extends RecyclerView.ViewHolder {
         private TextView textViewType;
         private TextView textViewNumber;

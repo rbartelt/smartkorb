@@ -34,7 +34,7 @@ public class KorbRepository {
     }
 
     public void deletAllKörbe() {
-        new DeleteKorbAsyncTask(korbDao).execute();
+        new DeleteAllKörbeAsyncTask(korbDao).execute();
     }
 
     public LiveData<List<Korb>> getAllKörbe() {
