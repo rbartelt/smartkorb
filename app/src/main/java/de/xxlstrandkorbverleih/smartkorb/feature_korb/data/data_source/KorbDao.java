@@ -1,4 +1,4 @@
-package de.xxlstrandkorbverleih.smartkorb;
+package de.xxlstrandkorbverleih.smartkorb.feature_korb.data.data_source;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -8,6 +8,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 
 @Dao
 public interface KorbDao {

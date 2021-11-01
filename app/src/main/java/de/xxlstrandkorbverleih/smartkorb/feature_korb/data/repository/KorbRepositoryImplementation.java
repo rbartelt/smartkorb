@@ -1,4 +1,4 @@
-package de.xxlstrandkorbverleih.smartkorb;
+package de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -7,12 +7,17 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class KorbRepository {
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.data_source.KorbDao;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.data_source.KorbDatabase;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository.KorbRepository;
+
+public class KorbRepositoryImplementation implements KorbRepository {
 
     private KorbDao korbDao;
     private LiveData<List<Korb>> allKörbe;
 
-    public KorbRepository(Application application) {
+    public KorbRepositoryImplementation(Application application) {
         KorbDatabase database = KorbDatabase.getInstance(application);      //get Database
         korbDao = database.korbDao();                                       //create DAO
         allKörbe = korbDao.getAllKörbe();                                   //create Livedata to observe?

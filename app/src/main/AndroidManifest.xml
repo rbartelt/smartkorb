@@ -15,10 +15,10 @@
         android:theme="@style/Theme.Smartkorb">
         <activity
             android:name=".AddKorbActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".feature_korb.presentation.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".feature_korb.presentation.MainActivity"
             android:launchMode="singleTop"
             android:exported="true">
             <intent-filter>

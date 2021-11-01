@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
+
 
 public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
     private List<Korb> körbe = new ArrayList<>();

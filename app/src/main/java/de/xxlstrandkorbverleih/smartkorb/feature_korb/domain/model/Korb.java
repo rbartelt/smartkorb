@@ -1,4 +1,4 @@
-package de.xxlstrandkorbverleih.smartkorb;
+package de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

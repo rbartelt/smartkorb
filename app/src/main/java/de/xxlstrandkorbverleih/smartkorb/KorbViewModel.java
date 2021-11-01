@@ -8,13 +8,18 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository.KorbRepositoryImplementation;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository.KorbRepository;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
+
 public class KorbViewModel extends AndroidViewModel {
     private KorbRepository repository;
     private LiveData<List<Korb>> allNotes;
 
     public KorbViewModel(@NonNull Application application) {
         super(application);
-        repository = new KorbRepository(application);
+        //Todo possible to use Dependency Injection to use Korbrepository (Interface) here?
+        repository = new KorbRepositoryImplementation(application);
         allNotes = repository.getAllKörbe();
     }
 
