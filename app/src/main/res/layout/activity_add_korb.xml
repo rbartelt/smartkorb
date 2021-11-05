@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".AddKorbActivity">
+    tools:context=".feature_korb.presentation.add_edit_korb.AddKorbActivity">
 
     <EditText
         android:id="@+id/edit_text_number"

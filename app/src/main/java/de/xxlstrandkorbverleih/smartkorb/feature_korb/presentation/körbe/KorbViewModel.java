@@ -1,4 +1,4 @@
-package de.xxlstrandkorbverleih.smartkorb;
+package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.körbe;
 
 import android.app.Application;
 

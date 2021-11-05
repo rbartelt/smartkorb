@@ -1,4 +1,4 @@
-package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation;
+package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.körbe;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,10 +21,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import de.xxlstrandkorbverleih.smartkorb.AddKorbActivity;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.add_edit_korb.AddKorbActivity;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
-import de.xxlstrandkorbverleih.smartkorb.KorbAdapter;
-import de.xxlstrandkorbverleih.smartkorb.KorbViewModel;
 import de.xxlstrandkorbverleih.smartkorb.R;
 
 public class MainActivity extends AppCompatActivity {

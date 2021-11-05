@@ -14,13 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Smartkorb">
         <activity
-            android:name=".AddKorbActivity"
-            android:parentActivityName=".feature_korb.presentation.MainActivity"
-            android:exported="false" />
+            android:name=".feature_korb.presentation.add_edit_korb.AddKorbActivity"
+            android:exported="false"
+            android:parentActivityName=".feature_korb.presentation.körbe.MainActivity" />
         <activity
-            android:name=".feature_korb.presentation.MainActivity"
-            android:launchMode="singleTop"
-            android:exported="true">
+            android:name=".feature_korb.presentation.StartActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
