@@ -26,6 +26,7 @@ import java.util.List;
 import de.xxlstrandkorbverleih.smartkorb.R;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.StartActivity;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.add_edit_korb.AddEditKorbFragment;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.add_edit_korb.AddKorbActivity;
 
 public class KoerbeFragment extends Fragment {
@@ -48,6 +49,7 @@ public class KoerbeFragment extends Fragment {
             public void onClick(View v) {
                 //Intent intent = new Intent(MainActivity.this, AddKorbActivity.class);
                 //startActivityForResult(intent,ADD_KORB_REQUEST);
+                ((StartActivity)getActivity()).setViewPager(1);
                 Toast.makeText(getContext(), "Button clicked", Toast.LENGTH_SHORT).show();
             }
         });
