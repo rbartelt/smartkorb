@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.data_source.KorbDao;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.data_source.KorbDatabase;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
@@ -17,6 +19,7 @@ public class KorbRepositoryImplementation implements KorbRepository {
     private KorbDao korbDao;
     private LiveData<List<Korb>> allKörbe;
 
+    @Inject
     public KorbRepositoryImplementation(Application application) {
         KorbDatabase database = KorbDatabase.getInstance(application);      //get Database
         korbDao = database.korbDao();                                       //create DAO
