@@ -15,12 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Smartkorb">
         <activity
-            android:name=".AddKorbActivity"
-            android:parentActivityName=".feature_korb.presentation.MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".feature_korb.presentation.MainActivity"
-            android:launchMode="singleTop"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".feature_korb.presentation.addEditKorb.AddKorbActivity"
+            android:exported="false"
+            android:parentActivityName=".feature_korb.presentation.showKoerbe.ShowKoerbeActivity" />
+        <activity
+            android:name=".feature_korb.presentation.showKoerbe.ShowKoerbeActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

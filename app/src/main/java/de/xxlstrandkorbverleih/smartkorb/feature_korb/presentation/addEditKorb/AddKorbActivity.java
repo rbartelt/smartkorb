@@ -1,4 +1,4 @@
-package de.xxlstrandkorbverleih.smartkorb;
+package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.addEditKorb;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import de.xxlstrandkorbverleih.smartkorb.R;
 
 public class AddKorbActivity extends AppCompatActivity {
     public static final String EXTRA_NUMBER = "de.xxlstrandkorbverleih.smartkorb.EXTRA_NUMBER";

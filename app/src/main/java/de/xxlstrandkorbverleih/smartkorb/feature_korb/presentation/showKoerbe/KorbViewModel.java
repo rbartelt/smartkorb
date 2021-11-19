@@ -1,4 +1,4 @@
-package de.xxlstrandkorbverleih.smartkorb;
+package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe;
 
 import android.app.Application;
 
@@ -18,13 +18,13 @@ import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 public class KorbViewModel extends ViewModel {
 
     private KorbRepository repository;
-    private LiveData<List<Korb>> allNotes;
+    private LiveData<List<Korb>> allKoerbe;
 
     @Inject
     public KorbViewModel(@NonNull Application application, KorbRepository repo) {
         super();
         repository = repo;
-        allNotes = repository.getAllKörbe();
+        allKoerbe = repository.getAllKörbe();
     }
 
     public void insert(Korb korb) {
@@ -44,6 +44,6 @@ public class KorbViewModel extends ViewModel {
     }
 
     public LiveData<List<Korb>> getAllKörbe() {
-        return allNotes;
+        return allKoerbe;
     }
 }
