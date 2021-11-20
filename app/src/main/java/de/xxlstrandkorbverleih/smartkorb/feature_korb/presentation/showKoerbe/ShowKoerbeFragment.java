@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import de.xxlstrandkorbverleih.smartkorb.R;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.addEditKorb.AddKorbActivity;
+
 @AndroidEntryPoint
 public class ShowKoerbeFragment extends Fragment {
 
@@ -46,13 +48,19 @@ public class ShowKoerbeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View showKoerbeView = inflater.inflate(R.layout.fragment_show_koerbe, container, false);
+        return inflater.inflate(R.layout.fragment_show_koerbe, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        View showKoerbeView = getView();
         FloatingActionButton buttonAddKorb = showKoerbeView.findViewById(R.id.button_add_korb);
         buttonAddKorb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Todo pass Korbnumber to next Fragment
-                NavDirections action =ShowKoerbeFragmentDirections.actionShowKoerbeFragmentToAddEditKorbFragment();
+                NavDirections action = ShowKoerbeFragmentDirections.actionShowKoerbeFragmentToAddEditKorbFragment();
                 Navigation.findNavController(v).navigate(action);
             }
         });
@@ -64,14 +72,12 @@ public class ShowKoerbeFragment extends Fragment {
         KorbAdapter adapter = new KorbAdapter();
         recyclerView.setAdapter(adapter);
 
-        korbViewModel = new ViewModelProvider(this).get(KorbViewModel.class);
-        korbViewModel.getAllKörbe().observe(getViewLifecycleOwner(), new Observer<List<Korb>>(){
+        korbViewModel = new ViewModelProvider(requireActivity()).get(KorbViewModel.class);
+        korbViewModel.getAllKörbe().observe(getViewLifecycleOwner(), new Observer<List<Korb>>() {
 
             @Override
             public void onChanged(List<Korb> körbe) {
                 adapter.setKörbe(körbe);
-
-
             }
         });
 
@@ -89,7 +95,6 @@ public class ShowKoerbeFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
-        return showKoerbeView;
     }
 
     @Override
