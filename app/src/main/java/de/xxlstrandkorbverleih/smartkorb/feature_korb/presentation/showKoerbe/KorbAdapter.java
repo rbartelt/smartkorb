@@ -16,7 +16,8 @@ import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 
 
 public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
-    private List<Korb> körbe = new ArrayList<>();
+    private List<Korb> koerbe = new ArrayList<>();
+    private OnItemClickListener listener;
 
     @NonNull
     @Override
@@ -28,7 +29,7 @@ public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull KorbHolder holder, int position) {
-        Korb currentKorb = körbe.get(position);
+        Korb currentKorb = koerbe.get(position);
         holder.textViewType.setText(currentKorb.getType());
         holder.textViewNumber.setText(String.valueOf(currentKorb.getNumber()));
         holder.textViewLocation.setText(String.valueOf(currentKorb.getAccuracy())); //TODO: set updatetime
@@ -36,17 +37,17 @@ public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
 
     @Override
     public int getItemCount() {
-        return körbe.size();
+        return koerbe.size();
     }
 
     //insert körbe in ResyclerView
-    public void setKörbe(List<Korb> körbe) {
-        this.körbe = körbe;
+    public void setKoerbe(List<Korb> koerbe) {
+        this.koerbe = koerbe;
         notifyDataSetChanged();
     }
 
     public Korb getKorbAt(int position) {
-        return körbe.get(position);
+        return koerbe.get(position);
     }
 
     class KorbHolder extends RecyclerView.ViewHolder {
@@ -59,6 +60,24 @@ public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
             textViewType = itemView.findViewById(R.id.text_view_type);
             textViewNumber = itemView.findViewById(R.id.text_view_number);
             textViewLocation = itemView.findViewById(R.id.text_view_location_set_on);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(koerbe.get(position));
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Korb korb);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

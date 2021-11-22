@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -19,12 +20,22 @@ public class KorbViewModel extends ViewModel {
 
     private KorbRepository repository;
     private LiveData<List<Korb>> allKoerbe;
+    private final MutableLiveData<Korb> selectedKorb = new MutableLiveData<Korb>();
+
 
     @Inject
     public KorbViewModel(@NonNull Application application, KorbRepository repo) {
         super();
         repository = repo;
         allKoerbe = repository.getAllKörbe();
+    }
+
+    public void setSelectedKorb(Korb korb) {
+        selectedKorb.setValue(korb);
+    }
+
+    public LiveData<Korb> getSelectedKorb() {
+        return selectedKorb;
     }
 
     public void insert(Korb korb) {

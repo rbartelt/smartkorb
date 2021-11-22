@@ -57,7 +57,7 @@ public class ShowKoerbeActivity extends AppCompatActivity {
 
             @Override
             public void onChanged(List<Korb> körbe) {
-                adapter.setKörbe(körbe);
+                adapter.setKoerbe(körbe);
 
 
             }
@@ -75,6 +75,8 @@ public class ShowKoerbeActivity extends AppCompatActivity {
                 korbViewModel.delete(adapter.getKorbAt(viewHolder.getAdapterPosition()));
                 Toast.makeText(ShowKoerbeActivity.this, "Korb deleted", Toast.LENGTH_SHORT).show();
             }
+
+
         }).attachToRecyclerView(recyclerView);
     }
 

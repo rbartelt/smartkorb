@@ -1,6 +1,5 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,7 +28,6 @@ import java.util.List;
 import dagger.hilt.android.AndroidEntryPoint;
 import de.xxlstrandkorbverleih.smartkorb.R;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
-import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.addEditKorb.AddKorbActivity;
 
 @AndroidEntryPoint
 public class ShowKoerbeFragment extends Fragment {
@@ -77,7 +75,7 @@ public class ShowKoerbeFragment extends Fragment {
 
             @Override
             public void onChanged(List<Korb> körbe) {
-                adapter.setKörbe(körbe);
+                adapter.setKoerbe(körbe);
             }
         });
 
@@ -94,6 +92,16 @@ public class ShowKoerbeFragment extends Fragment {
                 Toast.makeText(getContext(), "Korb deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
+
+        adapter.setOnItemClickListener(new KorbAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Korb korb) {
+                korbViewModel.setSelectedKorb(korb);
+                NavDirections action = ShowKoerbeFragmentDirections.actionShowKoerbeFragmentToAddEditKorbFragment();
+                Navigation.findNavController(getView()).navigate(action);
+
+            }
+        });
 
     }
 

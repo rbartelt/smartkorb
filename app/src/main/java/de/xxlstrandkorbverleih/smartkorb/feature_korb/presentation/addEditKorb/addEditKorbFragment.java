@@ -26,6 +26,7 @@ import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe.KorbViewModel;
 
 public class addEditKorbFragment extends Fragment {
+    private Korb updateKorb = null;
     private KorbViewModel korbViewModel;
     private EditText editTextNumber;
     private EditText editTextType;
@@ -51,24 +52,38 @@ public class addEditKorbFragment extends Fragment {
         editTextNumber = addEditKorbView.findViewById(R.id.edit_text_number);
         editTextType = addEditKorbView.findViewById(R.id.edit_text_type);
         buttonGetLocation = addEditKorbView.findViewById(R.id.button_get_location);
-        //Todo : Add OnClickListener and implement Method to get Location
+        /* Todo : Add OnClickListener and implement Method to get Location */
 
         korbViewModel = new ViewModelProvider(requireActivity()).get(KorbViewModel.class);
+        korbViewModel.getSelectedKorb().observe(getViewLifecycleOwner(), korb -> {
+            editTextNumber.setText(String.valueOf(korb.getNumber()));
+            editTextType.setText(korb.getType());
+            this.updateKorb = korb;
+        });
 
     }
 
-    private void saveKorb() {
+    private boolean saveKorb() {
         String type = editTextType.getText().toString();
         String number = editTextNumber.getText().toString();
         if (type.trim().isEmpty() || number.trim().isEmpty()) {
             Toast.makeText(getContext(), "Please insert a Type and positiv Number", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         } else {
             //Todo: Create ViewModel for AddKorbActivity (AddKorbViewModel) and do Databaseoperations with it. Then remove the next Section.
             //In the Tutorial the Data were passed to MainActivity wich uses the KorbViewModel to do the Database operation.
-            Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
-            korbViewModel.insert(korb);
-            Toast.makeText(getContext(), "Korb saved", Toast.LENGTH_SHORT).show();
+            if (updateKorb == null) {
+                Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
+                korbViewModel.insert(korb);
+                Toast.makeText(getContext(), "Korb saved", Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
+                korb.setId(updateKorb.getId());
+                korbViewModel.update(korb);
+                Toast.makeText(getContext(), "Korb updated", Toast.LENGTH_SHORT).show();
+                return true;
+            }
         }
     }
 
@@ -81,10 +96,11 @@ public class addEditKorbFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {                                     //witch item is selected
             case R.id.save_korb:
-                saveKorb();
-                NavDirections action = addEditKorbFragmentDirections.actionAddEditKorbFragmentToShowKoerbeFragment();
-                Navigation.findNavController(getView()).navigate(action);
-                return true;
+                if(saveKorb()) {
+                    NavDirections action = addEditKorbFragmentDirections.actionAddEditKorbFragmentToShowKoerbeFragment();
+                    Navigation.findNavController(getView()).navigate(action);
+                    return true;
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
