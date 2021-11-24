@@ -26,7 +26,6 @@ import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe.KorbViewModel;
 
 public class addEditKorbFragment extends Fragment {
-    private Korb updateKorb = null;
     private KorbViewModel korbViewModel;
     private EditText editTextNumber;
     private EditText editTextType;
@@ -56,9 +55,10 @@ public class addEditKorbFragment extends Fragment {
 
         korbViewModel = new ViewModelProvider(requireActivity()).get(KorbViewModel.class);
         korbViewModel.getSelectedKorb().observe(getViewLifecycleOwner(), korb -> {
-            editTextNumber.setText(String.valueOf(korb.getNumber()));
-            editTextType.setText(korb.getType());
-            this.updateKorb = korb;
+            if(korb!=null) {
+                editTextNumber.setText(String.valueOf(korb.getNumber()));
+                editTextType.setText(korb.getType());
+            }
         });
 
     }
@@ -70,16 +70,14 @@ public class addEditKorbFragment extends Fragment {
             Toast.makeText(getContext(), "Please insert a Type and positiv Number", Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            //Todo: Create ViewModel for AddKorbActivity (AddKorbViewModel) and do Databaseoperations with it. Then remove the next Section.
-            //In the Tutorial the Data were passed to MainActivity wich uses the KorbViewModel to do the Database operation.
-            if (updateKorb == null) {
+            if (korbViewModel.getSelectedKorb().getValue() == null) {
                 Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
                 korbViewModel.insert(korb);
                 Toast.makeText(getContext(), "Korb saved", Toast.LENGTH_SHORT).show();
                 return true;
             } else {
                 Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
-                korb.setId(updateKorb.getId());
+                korb.setId(korbViewModel.getSelectedKorb().getValue().getId());
                 korbViewModel.update(korb);
                 Toast.makeText(getContext(), "Korb updated", Toast.LENGTH_SHORT).show();
                 return true;

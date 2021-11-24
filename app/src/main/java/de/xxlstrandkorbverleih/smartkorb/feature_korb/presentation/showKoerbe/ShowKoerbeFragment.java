@@ -58,6 +58,7 @@ public class ShowKoerbeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Todo pass Korbnumber to next Fragment
+                korbViewModel.setSelectedKorb(null);
                 NavDirections action = ShowKoerbeFragmentDirections.actionShowKoerbeFragmentToAddEditKorbFragment();
                 Navigation.findNavController(v).navigate(action);
             }
@@ -94,6 +95,10 @@ public class ShowKoerbeFragment extends Fragment {
         }).attachToRecyclerView(recyclerView);
 
         adapter.setOnItemClickListener(new KorbAdapter.OnItemClickListener() {
+            /**
+             * if Korb selected from RecyclerView show Details in addEditKorbFragment
+             * @param korb the korb wich is clicked
+             */
             @Override
             public void onItemClick(Korb korb) {
                 korbViewModel.setSelectedKorb(korb);
