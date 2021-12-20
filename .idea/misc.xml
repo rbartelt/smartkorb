@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/barte/AndroidStudioProjects/smartkorbMvvm/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/barte/AndroidStudioProjects/smartkorbMvvm/app/src/main/res/layout/booking_duration_item.xml" value="0.165" />
+        <entry key="..\:/Users/barte/AndroidStudioProjects/smartkorbMvvm/app/src/main/res/layout/fragment_add_edit_korb.xml" value="0.12907608695652173" />
+        <entry key="..\:/Users/barte/AndroidStudioProjects/smartkorbMvvm/app/src/main/res/layout/fragment_booking.xml" value="0.165" />
+        <entry key="..\:/Users/barte/AndroidStudioProjects/smartkorbMvvm/app/src/main/res/layout/fragment_show_koerbe.xml" value="0.1" />
+        <entry key="..\:/Users/barte/AndroidStudioProjects/smartkorbMvvm/app/src/main/res/layout/korb_item.xml" value="0.25" />
+        <entry key="..\:/Users/barte/AndroidStudioProjects/smartkorbMvvm/app/src/main/res/menu/drawer_nav_menu.xml" value="0.175" />
         <entry key="..\:/android/projects/app/src/main/res/drawable/ic_home.xml" value="0.2824074074074074" />
         <entry key="..\:/android/projects/app/src/main/res/layout/activity_add_korb.xml" value="0.2674772036474164" />
         <entry key="..\:/android/projects/app/src/main/res/layout/activity_main.xml" value="0.2692502532928065" />

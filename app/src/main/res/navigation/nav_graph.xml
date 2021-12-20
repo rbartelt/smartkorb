@@ -21,4 +21,8 @@
             android:id="@+id/action_addEditKorbFragment_to_showKoerbeFragment"
             app:destination="@id/showKoerbeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.booking.BookingFragment"
+        android:label="BookingFragment" />
 </navigation>

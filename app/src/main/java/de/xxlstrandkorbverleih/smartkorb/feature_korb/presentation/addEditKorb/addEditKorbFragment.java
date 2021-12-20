@@ -1,7 +1,6 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.addEditKorb;
 
 import android.content.Context;
-import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,8 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,7 @@ import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe.Ko
 public class addEditKorbFragment extends Fragment {
     private KorbViewModel korbViewModel;
     private EditText editTextNumber;
-    private EditText editTextType;
+    private Spinner spinnerType;
     private Button buttonGetLocation;
 
 
@@ -49,7 +50,10 @@ public class addEditKorbFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         View addEditKorbView = getView();
         editTextNumber = addEditKorbView.findViewById(R.id.edit_text_number);
-        editTextType = addEditKorbView.findViewById(R.id.edit_text_type);
+        spinnerType = addEditKorbView.findViewById(R.id.edit_text_type);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setAdapter(adapter);
         buttonGetLocation = addEditKorbView.findViewById(R.id.button_get_location);
         /* Todo : Add OnClickListener and implement Method to get Location */
 
@@ -57,25 +61,28 @@ public class addEditKorbFragment extends Fragment {
         korbViewModel.getSelectedKorb().observe(getViewLifecycleOwner(), korb -> {
             if(korb!=null) {
                 editTextNumber.setText(String.valueOf(korb.getNumber()));
-                editTextType.setText(korb.getType());
+                spinnerType.setSelection(adapter.getPosition(korb.getType()));
             }
         });
 
     }
 
     private boolean saveKorb() {
-        String type = editTextType.getText().toString();
+        String type = spinnerType.getSelectedItem().toString();
         String number = editTextNumber.getText().toString();
         if (type.trim().isEmpty() || number.trim().isEmpty()) {
             Toast.makeText(getContext(), "Please insert a Type and positiv Number", Toast.LENGTH_SHORT).show();
             return false;
         } else {
+            //insert new korb
             if (korbViewModel.getSelectedKorb().getValue() == null) {
                 Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
                 korbViewModel.insert(korb);
                 Toast.makeText(getContext(), "Korb saved", Toast.LENGTH_SHORT).show();
                 return true;
-            } else {
+            }
+            //update existing korb
+            else {
                 Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
                 korb.setId(korbViewModel.getSelectedKorb().getValue().getId());
                 korbViewModel.update(korb);

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.xxlstrandkorbverleih.smartkorb">
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="${MAPS_API_KEY}" />
 
     <application
         android:name=".SmartkorbApp"
@@ -14,6 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Smartkorb">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
         <activity
             android:name=".feature_korb.presentation.MainActivity"
             android:exported="true">
@@ -24,14 +28,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".feature_korb.presentation.addEditKorb.AddKorbActivity"
-            android:exported="false"
-            android:parentActivityName=".feature_korb.presentation.showKoerbe.ShowKoerbeActivity" />
-        <activity
-            android:name=".feature_korb.presentation.showKoerbe.ShowKoerbeActivity"
-            android:exported="true"
-            android:launchMode="singleTop" />
     </application>
 
 </manifest>

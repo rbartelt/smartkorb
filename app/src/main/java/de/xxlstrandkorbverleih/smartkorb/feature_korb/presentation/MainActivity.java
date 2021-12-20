@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //set TopLevelDestinations (wich dont show the Backbutton in Actionbar)
         Set<Integer> topLevelDestinations = new HashSet<>();
         topLevelDestinations.add(R.id.showKoerbeFragment);
-        //topLevelDestinations.add(R.id.searchFragment);
+        topLevelDestinations.add(R.id.bookingFragment);
         //find DrawerLayout
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         //setup AppBarConfiguration
