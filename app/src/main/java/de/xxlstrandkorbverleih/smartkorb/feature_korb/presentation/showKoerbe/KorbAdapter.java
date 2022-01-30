@@ -14,7 +14,7 @@ import java.util.List;
 import de.xxlstrandkorbverleih.smartkorb.R;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 
-
+//TODO: create Marker for korb Nfc Uid and key NFC UID is set
 public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
     private List<Korb> koerbe = new ArrayList<>();
     private OnItemClickListener listener;
