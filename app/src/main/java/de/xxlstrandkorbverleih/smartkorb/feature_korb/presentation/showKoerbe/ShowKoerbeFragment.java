@@ -53,24 +53,30 @@ public class ShowKoerbeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         View showKoerbeView = getView();
+
+        /**
+        * Setup Floating Action Button
+        */
         FloatingActionButton buttonAddKorb = showKoerbeView.findViewById(R.id.button_add_korb);
-        buttonAddKorb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Todo pass Korbnumber to next Fragment
-                korbViewModel.setSelectedKorb(null);
-                NavDirections action = ShowKoerbeFragmentDirections.actionShowKoerbeFragmentToAddEditKorbFragment();
-                Navigation.findNavController(v).navigate(action);
-            }
+        buttonAddKorb.setOnClickListener(v -> {
+            //Todo pass Korbnumber to next Fragment
+            korbViewModel.setSelectedKorb(null);
+            NavDirections action = ShowKoerbeFragmentDirections.actionShowKoerbeFragmentToAddEditKorbFragment();
+            Navigation.findNavController(v).navigate(action);
         });
 
+        /**
+         * Setup RecyclerView
+         */
         RecyclerView recyclerView = showKoerbeView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-
         KorbAdapter adapter = new KorbAdapter();
         recyclerView.setAdapter(adapter);
 
+        /**
+         * get ViewModel and register Observer with RecyclerView.Adapter
+         */
         korbViewModel = new ViewModelProvider(requireActivity()).get(KorbViewModel.class);
         korbViewModel.getAllKörbe().observe(getViewLifecycleOwner(), new Observer<List<Korb>>() {
 
@@ -80,6 +86,9 @@ public class ShowKoerbeFragment extends Fragment {
             }
         });
 
+        /**
+         * ItemTouchHelper to implement swipe to delete Entry
+         */
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             @Override
@@ -94,6 +103,9 @@ public class ShowKoerbeFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
+        /**
+         * OnItemClickListener to navigate to AddEditKorbFragment
+         */
         adapter.setOnItemClickListener(new KorbAdapter.OnItemClickListener() {
             /**
              * if Korb selected from RecyclerView show Details in addEditKorbFragment

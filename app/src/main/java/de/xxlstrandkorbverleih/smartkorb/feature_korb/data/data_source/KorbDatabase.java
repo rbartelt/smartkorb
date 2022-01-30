@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 
-@Database(entities = {Korb.class}, version = 1)
+@Database(entities = {Korb.class}, version = 2)
 public abstract class KorbDatabase extends RoomDatabase {
 
     private static KorbDatabase instance;
@@ -46,9 +46,9 @@ public abstract class KorbDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            korbDao.insert(new Korb(1,"XXL",123.000,123.123,2.7));
-            korbDao.insert(new Korb(2,"XL",124.000,124.123,2.7));
-            korbDao.insert(new Korb(3,"Normal",125.000,125.123,2.7));
+            //korbDao.insert(new Korb(1,"XXL",123.000,123.123,2.7));
+            //korbDao.insert(new Korb(2,"XL",124.000,124.123,2.7));
+            //korbDao.insert(new Korb(3,"Normal",125.000,125.123,2.7));
             return null;
         }
     }

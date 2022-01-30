@@ -40,8 +40,14 @@
         android:hint="Accuracy"
         android:padding="12dp" />
     <Button
-        android:id="@+id/button_get_location"
+        android:id="@+id/button_write_korb_tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get Location"/>
+        android:text="Write Korb RFID Tag"/>
+    <Button
+        android:id="@+id/button_write_key_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write Key RFID Tag"/>
+
 </LinearLayout>

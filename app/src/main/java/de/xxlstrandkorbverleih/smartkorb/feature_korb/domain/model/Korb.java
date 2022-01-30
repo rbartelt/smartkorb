@@ -15,13 +15,17 @@ public class Korb {
     private double latitude;            //latitude location
     private double longitude;           //longitude location
     private double accuracy;            //accuracy of location
+    private String keyUid;              //UID of Key NFC Tag
+    private String korbUid;              //UID of Korb NFC Tag
 
-    public Korb(int number, String type, double latitude, double longitude, double accuracy) {
+    public Korb(int number, String type, double latitude, double longitude, double accuracy, String keyUid, String korbUid) {
         this.number = number;
         this.type = type;
         this.latitude = latitude;
         this.longitude = longitude;
         this.accuracy = accuracy;
+        this.keyUid = keyUid;
+        this.korbUid = korbUid;
     }
 
     public void setId(int id) {
@@ -51,4 +55,21 @@ public class Korb {
     public double getAccuracy() {
         return accuracy;
     }
+
+    public String getKeyUid() {
+        return keyUid;
+    }
+
+    public void setKeyUid(String keyUid) {
+        this.keyUid = keyUid;
+    }
+
+    public String getKorbUid() {
+        return korbUid;
+    }
+
+    public void setKorbUid(String korbUid) {
+        this.korbUid = korbUid;
+    }
+
 }

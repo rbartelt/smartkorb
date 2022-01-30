@@ -1,6 +1,11 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.addEditKorb;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -24,14 +30,19 @@ import androidx.navigation.Navigation;
 
 import de.xxlstrandkorbverleih.smartkorb.R;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.MainActivity;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe.KorbViewModel;
 
 public class addEditKorbFragment extends Fragment {
     private KorbViewModel korbViewModel;
     private EditText editTextNumber;
     private Spinner spinnerType;
-    private Button buttonGetLocation;
+    private Button buttonWriteKeyTag;
+    private Button buttonWriteKorbTag;
 
+    boolean mWriteMode = false;
+    private NfcAdapter mNfcAdapter;
+    private PendingIntent mNfcPendingIntent;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,14 +59,51 @@ public class addEditKorbFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //init UI Components
         View addEditKorbView = getView();
         editTextNumber = addEditKorbView.findViewById(R.id.edit_text_number);
         spinnerType = addEditKorbView.findViewById(R.id.edit_text_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(adapter);
-        buttonGetLocation = addEditKorbView.findViewById(R.id.button_get_location);
-        /* Todo : Add OnClickListener and implement Method to get Location */
+
+        /*Handle Button Write Key Tag*/
+        buttonWriteKeyTag = addEditKorbView.findViewById(R.id.button_write_key_tag);
+        buttonWriteKeyTag.setOnClickListener(v -> {
+            mNfcAdapter = NfcAdapter.getDefaultAdapter(getContext());
+            mNfcPendingIntent = PendingIntent.getActivity(getContext(), 0,
+            new Intent(getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+            enableTagWriteMode();
+
+            AlertDialog.Builder ad = new AlertDialog.Builder(getContext()).setTitle("Approach Key Tag").setOnCancelListener(
+
+                    new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            disableTagWriteMode();
+                            Toast.makeText(getContext(), "Canceld", Toast.LENGTH_SHORT).show();;
+                        }
+                    });
+            AlertDialog alert = ad.create();
+            alert.show();
+
+        });
+        /*Handle Button Write Korb Tag*/
+        buttonWriteKorbTag = addEditKorbView.findViewById(R.id.button_write_korb_tag);
+        buttonWriteKorbTag.setOnClickListener(v-> {
+            AlertDialog.Builder ad = new AlertDialog.Builder(getContext()).setTitle("Approach Korb Tag").setOnCancelListener(
+                    new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            disableTagWriteMode();
+                            Toast.makeText(getContext(), "Canceld", Toast.LENGTH_SHORT).show();;
+                        }
+                    });
+            AlertDialog alert = ad.create();
+            alert.show();
+        });
 
         korbViewModel = new ViewModelProvider(requireActivity()).get(KorbViewModel.class);
         korbViewModel.getSelectedKorb().observe(getViewLifecycleOwner(), korb -> {
@@ -76,14 +124,14 @@ public class addEditKorbFragment extends Fragment {
         } else {
             //insert new korb
             if (korbViewModel.getSelectedKorb().getValue() == null) {
-                Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
+                Korb korb = new Korb(Integer.parseInt(number), type, 1, 1, 1, null, null);
                 korbViewModel.insert(korb);
                 Toast.makeText(getContext(), "Korb saved", Toast.LENGTH_SHORT).show();
                 return true;
             }
             //update existing korb
             else {
-                Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1);
+                Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1, null, null);
                 korb.setId(korbViewModel.getSelectedKorb().getValue().getId());
                 korbViewModel.update(korb);
                 Toast.makeText(getContext(), "Korb updated", Toast.LENGTH_SHORT).show();
@@ -114,10 +162,24 @@ public class addEditKorbFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //Hide OnScreenKeyboard
         InputMethodManager inputManager = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         View currentFocusedView = requireActivity().getCurrentFocus();
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+    private void disableTagWriteMode() {
+        mWriteMode = false;
+        mNfcAdapter.disableForegroundDispatch(getActivity());
+    }
+
+    private void enableTagWriteMode() {
+        mWriteMode = true;
+        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+        IntentFilter[] mWriteTagFilters = new IntentFilter[] { tagDetected };
+        mNfcAdapter.enableForegroundDispatch(getActivity(), mNfcPendingIntent, mWriteTagFilters, null);
+    }
+
 }
