@@ -20,9 +20,16 @@
         <action
             android:id="@+id/action_addEditKorbFragment_to_showKoerbeFragment"
             app:destination="@id/showKoerbeFragment" />
+        <action
+            android:id="@+id/action_addEditKorbFragment_to_nfcDialog"
+            app:destination="@id/nfcDialog" />
     </fragment>
     <fragment
         android:id="@+id/bookingFragment"
         android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.booking.BookingFragment"
         android:label="BookingFragment" />
+    <dialog
+        android:id="@+id/nfcDialog"
+        android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.common.NfcDialog"
+        android:label="NfcDialog" />
 </navigation>

@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:stretchColumns="5"
     android:layout_margin="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp">
+    <TableRow>
 
         <TextView
             android:id="@+id/text_view_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="12dp"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:layout_column="1"
             android:text="XXL"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -26,19 +21,34 @@
             android:id="@+id/text_view_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_column="2"
             android:layout_marginStart="12dp"
-            android:layout_toRightOf="@id/text_view_type"
             android:text="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/text_view_location_set_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_column="3"
+            android:layout_marginStart="12dp"
             android:text="01.01.1980"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    </RelativeLayout>
+        <CheckBox
+            android:id="@+id/check_box_tag_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="4"
+            android:clickable="false"
+            android:layout_marginStart="12dp"/>
 
-</androidx.cardview.widget.CardView>
+        <CheckBox
+            android:id="@+id/check_box_tag_korb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="5"
+            android:clickable="false"
+            android:layout_marginStart="12dp"/>
+    </TableRow>
+</TableLayout>

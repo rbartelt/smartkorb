@@ -1,8 +1,5 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -24,7 +21,7 @@ public class KorbViewModel extends ViewModel {
 
 
     @Inject
-    public KorbViewModel(@NonNull Application application, KorbRepository repo) {
+    public KorbViewModel(KorbRepository repo) {
         super();
         repository = repo;
         allKoerbe = repository.getAllKörbe();
@@ -38,6 +35,7 @@ public class KorbViewModel extends ViewModel {
         return selectedKorb;
     }
 
+    //Wrapper classes because repository should not linked to View
     public void insert(Korb korb) {
         repository.insert(korb);
     }

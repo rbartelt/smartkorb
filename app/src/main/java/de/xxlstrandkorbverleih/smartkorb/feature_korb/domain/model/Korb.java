@@ -27,7 +27,7 @@ public class Korb {
         this.keyUid = keyUid;
         this.korbUid = korbUid;
     }
-
+    //Setter is needed by Room because id is not in the constructor
     public void setId(int id) {
         this.id = id;
     }
@@ -60,16 +60,8 @@ public class Korb {
         return keyUid;
     }
 
-    public void setKeyUid(String keyUid) {
-        this.keyUid = keyUid;
-    }
-
     public String getKorbUid() {
         return korbUid;
-    }
-
-    public void setKorbUid(String korbUid) {
-        this.korbUid = korbUid;
     }
 
 }
