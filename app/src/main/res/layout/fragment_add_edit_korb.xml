@@ -45,6 +45,12 @@
         android:layout_height="wrap_content"
         android:hint="Key UID"
         android:padding="12dp" />
+    <TextView
+        android:id="@+id/text_view_korb_uid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Korb UID"
+        android:padding="12dp" />
     <Button
         android:id="@+id/button_write_korb_tag"
         android:layout_width="match_parent"
