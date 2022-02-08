@@ -11,12 +11,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
+import de.xxlstrandkorbverleih.smartkorb.R;
 
 public class NfcDialog extends DialogFragment implements NfcAdapter.ReaderCallback {
     private String strTagId;
     private NfcAdapter mNfcAdapter;
     private NfcDialogViewModel nfcDialogViewModel;
-
+    private NfcDialogArgs args;
 
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -33,8 +37,9 @@ public class NfcDialog extends DialogFragment implements NfcAdapter.ReaderCallba
         /**
          * get ViewModel
          */
-        nfcDialogViewModel = new ViewModelProvider(requireActivity()).get(NfcDialogViewModel.class);
-
+        NavController navController = NavHostFragment.findNavController(this);
+        nfcDialogViewModel = new ViewModelProvider(navController.getViewModelStoreOwner(R.id.korbnfc)).get(NfcDialogViewModel.class);
+        args = NfcDialogArgs.fromBundle(getArguments());
         return builder.create();
     }
 
@@ -62,7 +67,10 @@ public class NfcDialog extends DialogFragment implements NfcAdapter.ReaderCallba
         // Success if got to here
         String finalStrTagId = strTagId;
         getActivity().runOnUiThread(() -> {
-            nfcDialogViewModel.setUid(strTagId);
+            if (args.getUidType()=="korbuid")
+                nfcDialogViewModel.setUidKorb(strTagId);
+            if(args.getUidType()=="keyuid")
+                nfcDialogViewModel.setUidKey(strTagId);
             Toast.makeText(getActivity(), finalStrTagId, Toast.LENGTH_SHORT).show();
             try {
                 //Wait a second to remove the NFC Tag from Device

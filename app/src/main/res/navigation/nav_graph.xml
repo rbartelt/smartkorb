@@ -11,25 +11,33 @@
         tools:layout="@layout/fragment_show_koerbe">
         <action
             android:id="@+id/action_showKoerbeFragment_to_addEditKorbFragment"
-            app:destination="@id/addEditKorbFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addEditKorbFragment"
-        android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.addEditKorb.addEditKorbFragment"
-        android:label="Strandkorb bearbeiten" >
-        <action
-            android:id="@+id/action_addEditKorbFragment_to_showKoerbeFragment"
-            app:destination="@id/showKoerbeFragment" />
-        <action
-            android:id="@+id/action_addEditKorbFragment_to_nfcDialog"
-            app:destination="@id/nfcDialog" />
+            app:destination="@id/korbnfc" />
     </fragment>
     <fragment
         android:id="@+id/bookingFragment"
         android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.booking.BookingFragment"
         android:label="BookingFragment" />
-    <dialog
-        android:id="@+id/nfcDialog"
-        android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.common.NfcDialog"
-        android:label="NfcDialog" />
+    <navigation android:id="@+id/korbnfc"
+        app:startDestination="@id/addEditKorbFragment">
+        <fragment
+            android:id="@+id/addEditKorbFragment"
+            android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.addEditKorb.addEditKorbFragment"
+            android:label="Strandkorb bearbeiten">
+            <action
+                android:id="@+id/action_addEditKorbFragment_to_showKoerbeFragment"
+                app:destination="@id/showKoerbeFragment" />
+            <action
+                android:id="@+id/action_addEditKorbFragment_to_nfcDialog"
+                app:destination="@id/nfcDialog" />
+        </fragment>
+        <dialog
+            android:id="@+id/nfcDialog"
+            android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.common.NfcDialog"
+            android:label="NfcDialog">
+            <argument
+                android:name="uidType"
+                app:argType="string" />
+        </dialog>
+    </navigation>
+    />
 </navigation>
