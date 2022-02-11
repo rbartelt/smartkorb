@@ -64,4 +64,19 @@ public class Korb {
         return korbUid;
     }
 
+    //TODO: Should this better in ViewModel?
+    public boolean isKorbUidSet() {
+        if (korbUid.trim().isEmpty())
+            return false;
+        else
+            return true;
+    }
+
+    public boolean isKeyUidSet() {
+        if (keyUid.trim().isEmpty())
+            return false;
+        else
+            return true;
+    }
+
 }

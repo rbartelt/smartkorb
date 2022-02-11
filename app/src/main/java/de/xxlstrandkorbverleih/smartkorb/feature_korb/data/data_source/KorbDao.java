@@ -28,4 +28,7 @@ public interface KorbDao {
 
     @Query("SELECT * FROM korb_table ORDER BY number DESC")
     LiveData<List<Korb>> getAllKörbe();
+
+    @Query("SELECT * FROM korb_table WHERE KeyUid=:keyUid")
+    LiveData<List<Korb>> getKorbWithKeyUid(String keyUid);
 }

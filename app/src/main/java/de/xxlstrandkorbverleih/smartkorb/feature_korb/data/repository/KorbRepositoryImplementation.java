@@ -26,6 +26,10 @@ public class KorbRepositoryImplementation implements KorbRepository {
         allKörbe = korbDao.getAllKörbe();                                   //create Livedata to observe?
     }
 
+    public LiveData<List<Korb>> getKorbWithKeyUid(String keyUid) {
+        return korbDao.getKorbWithKeyUid(keyUid);
+    }
+
     public void insert(Korb korb) {
         new InsertKorbAsyncTask(korbDao).execute(korb);
 
@@ -48,6 +52,7 @@ public class KorbRepositoryImplementation implements KorbRepository {
     public LiveData<List<Korb>> getAllKörbe() {
         return allKörbe;
     }
+
 
     //Room will not allow Database operations in Main Thread
     //We have to create the Database operation in async Tasks

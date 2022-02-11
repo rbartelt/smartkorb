@@ -19,4 +19,6 @@ public interface KorbRepository {
 
     public LiveData<List<Korb>> getAllKörbe();
 
+    public LiveData<List<Korb>> getKorbWithKeyUid(String keyUid);
+
 }

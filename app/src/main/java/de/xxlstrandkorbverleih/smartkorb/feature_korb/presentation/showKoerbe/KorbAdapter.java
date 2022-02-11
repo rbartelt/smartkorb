@@ -3,6 +3,7 @@ package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,8 @@ public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
         holder.textViewType.setText(currentKorb.getType());
         holder.textViewNumber.setText(String.valueOf(currentKorb.getNumber()));
         holder.textViewLocation.setText(String.valueOf(currentKorb.getAccuracy())); //TODO: set updatetime
+        holder.checkBoxKorbUid.setChecked(currentKorb.isKorbUidSet());
+        holder.checkBoxKeyUid.setChecked(currentKorb.isKeyUidSet());
     }
 
     @Override
@@ -54,12 +57,16 @@ public class KorbAdapter extends RecyclerView.Adapter<KorbAdapter.KorbHolder> {
         private TextView textViewType;
         private TextView textViewNumber;
         private TextView textViewLocation;
+        private CheckBox checkBoxKeyUid;
+        private CheckBox checkBoxKorbUid;
 
         public KorbHolder(View itemView) {
             super(itemView);
             textViewType = itemView.findViewById(R.id.text_view_type);
             textViewNumber = itemView.findViewById(R.id.text_view_number);
             textViewLocation = itemView.findViewById(R.id.text_view_location_set_on);
+            checkBoxKeyUid = itemView.findViewById(R.id.check_box_key_uid);
+            checkBoxKorbUid = itemView.findViewById(R.id.check_box_korb_uid);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -27,6 +27,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import de.xxlstrandkorbverleih.smartkorb.R;
+import de.xxlstrandkorbverleih.smartkorb.common.presentation.Result;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.common.NfcDialogViewModel;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe.KorbViewModel;
@@ -83,6 +84,7 @@ public class addEditKorbFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(action);
         });
 
+        //set ViewModel and handel update on change
         korbViewModel = new ViewModelProvider(requireActivity()).get(KorbViewModel.class);
         korbViewModel.getSelectedKorb().observe(getViewLifecycleOwner(), korb -> {
             if(korb!=null) {
@@ -95,8 +97,10 @@ public class addEditKorbFragment extends Fragment {
             }
         });
         //TODO: check if there is a better way to get the tag uid from the Dialog
+        //Set ViewModel to communicate with NfcDialog
+        //Find NavController for AddEditFragment
         NavController navController = NavHostFragment.findNavController(this);
-        //navController.getViewModelStoreOwner(R.id.addEditKorbFragment);
+        //set ViewModel to scope nested navigation graph
         nfcDialogViewModel = new ViewModelProvider(navController.getViewModelStoreOwner(R.id.korbnfc)).get(NfcDialogViewModel.class);
         nfcDialogViewModel.getUidKey().observe(getViewLifecycleOwner(), uidKey -> {
             if(uidKey!=null)
@@ -150,17 +154,17 @@ public class addEditKorbFragment extends Fragment {
             //insert new korb
             if (korbViewModel.getSelectedKorb().getValue() == null) {
                 Korb korb = new Korb(Integer.parseInt(number), type, 1, 1, 1,uidKey, uidKorb);
-                korbViewModel.insert(korb);
-                Toast.makeText(getContext(), "Korb saved", Toast.LENGTH_SHORT).show();
-                return true;
+                Result result = korbViewModel.insert(korb);
+                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+                return result.isSuccess();
             }
             //update existing korb
             else {
                 Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1, uidKey, uidKorb);
                 korb.setId(korbViewModel.getSelectedKorb().getValue().getId());
-                korbViewModel.update(korb);
-                Toast.makeText(getContext(), "Korb updated", Toast.LENGTH_SHORT).show();
-                return true;
+                Result result = korbViewModel.update(korb);
+                Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+                return result.isSuccess();
             }
         }
     }
