@@ -30,6 +30,11 @@ public class KorbRepositoryImplementation implements KorbRepository {
         return korbDao.getKorbWithKeyUid(keyUid);
     }
 
+    @Override
+    public LiveData<Korb> getBeachchairByUid(String beachchairUid) {
+        return korbDao.getBeachchairByUid(beachchairUid);
+    }
+
     public void insert(Korb korb) {
         new InsertKorbAsyncTask(korbDao).execute(korb);
 

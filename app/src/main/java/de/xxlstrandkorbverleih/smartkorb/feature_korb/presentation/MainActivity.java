@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         Set<Integer> topLevelDestinations = new HashSet<>();
         topLevelDestinations.add(R.id.showKoerbeFragment);
         topLevelDestinations.add(R.id.bookingFragment);
+        topLevelDestinations.add(R.id.scanBeachchairLocationFragment);
         //find DrawerLayout
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         //setup AppBarConfiguration

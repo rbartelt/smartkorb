@@ -51,7 +51,7 @@ public class addEditKorbFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_edit_korb, container, false);
+        return inflater.inflate(R.layout.fragment_add_edit_korb,container,false);
     }
 
     @Override
@@ -71,16 +71,14 @@ public class addEditKorbFragment extends Fragment {
         /*Handle Button Write Key Tag*/
         buttonWriteKeyTag = addEditKorbView.findViewById(R.id.button_write_key_tag);
         buttonWriteKeyTag.setOnClickListener(v -> {
-            //TODO: Ensure UID is unique -> create Methode or Usecase Class in Domainmodel
-            NavDirections action = addEditKorbFragmentDirections.actionAddEditKorbFragmentToNfcDialog("keyuid");
+            NavDirections action = (NavDirections) addEditKorbFragmentDirections.actionAddEditKorbFragmentToNfcDialog("keyuid");
             Navigation.findNavController(getView()).navigate(action);
 
         });
         /*Handle Button Write Korb Tag*/
         buttonWriteKorbTag = addEditKorbView.findViewById(R.id.button_write_korb_tag);
         buttonWriteKorbTag.setOnClickListener(v-> {
-            //TODO: Ensure UID is unique -> create Methode or Usecase Class in Domainmodel
-            NavDirections action = addEditKorbFragmentDirections.actionAddEditKorbFragmentToNfcDialog("korbuid");
+            NavDirections action = (NavDirections) addEditKorbFragmentDirections.actionAddEditKorbFragmentToNfcDialog("korbuid");
             Navigation.findNavController(getView()).navigate(action);
         });
 
@@ -168,5 +166,4 @@ public class addEditKorbFragment extends Fragment {
             }
         }
     }
-
 }

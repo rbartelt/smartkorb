@@ -5,6 +5,13 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/showKoerbeFragment">
     <fragment
+        android:id="@+id/scanBeachchairLocationFragment"
+        android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.scanBeachchairsNfcTag.ScanBeachchairsNfcTag"
+        android:label="Strandkorbliste"
+        tools:layout="@layout/fragment_scan_beachchairs_location">
+    </fragment>
+
+    <fragment
         android:id="@+id/showKoerbeFragment"
         android:name="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.showKoerbe.ShowKoerbeFragment"
         android:label="Strandkorbliste"
@@ -39,5 +46,4 @@
                 app:argType="string" />
         </dialog>
     </navigation>
-    />
 </navigation>

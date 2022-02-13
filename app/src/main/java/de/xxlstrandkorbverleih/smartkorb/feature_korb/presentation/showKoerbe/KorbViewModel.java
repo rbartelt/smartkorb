@@ -107,6 +107,12 @@ public class KorbViewModel extends ViewModel {
             result.setSuccess(false);
             result.setMessage("Key and Korb Tag can't be the same.");
         }
+        //if korb number is empty or < 0
+        if(korb.getNumber()<0) {
+            result.setSuccess(false);
+            result.setMessage("Number must be greater then 0");
+        }
+
         return result;
     }
 }

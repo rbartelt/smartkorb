@@ -31,4 +31,7 @@ public interface KorbDao {
 
     @Query("SELECT * FROM korb_table WHERE KeyUid=:keyUid")
     LiveData<List<Korb>> getKorbWithKeyUid(String keyUid);
+
+    @Query("SELECT * FROM korb_table WHERE KorbUid=:beachchairUid")
+    LiveData<Korb> getBeachchairByUid(String beachchairUid);
 }

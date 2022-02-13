@@ -10,4 +10,8 @@
         android:id="@+id/showKoerbeFragment"
         android:title="Übersicht Körbe"
         android:icon="@drawable/ic_search"/>
+    <item
+        android:id="@+id/scanBeachchairLocationFragment"
+        android:title="Scan Körbe"
+        android:icon="@drawable/ic_search"/>
 </menu>

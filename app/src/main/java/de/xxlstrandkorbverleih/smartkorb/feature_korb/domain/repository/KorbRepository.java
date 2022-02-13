@@ -21,4 +21,5 @@ public interface KorbRepository {
 
     public LiveData<List<Korb>> getKorbWithKeyUid(String keyUid);
 
+    public LiveData<Korb> getBeachchairByUid(String beachchairUid);
 }
