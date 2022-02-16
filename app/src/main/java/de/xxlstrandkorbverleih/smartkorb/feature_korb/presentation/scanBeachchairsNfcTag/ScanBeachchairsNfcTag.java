@@ -42,7 +42,11 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
     }
 
     private void onBeachchairChanged(Korb korb) {
-        Toast.makeText(getContext(), String.valueOf(korb.getNumber()), Toast.LENGTH_SHORT).show();
+        if(korb==null)
+            Toast.makeText(getContext(), "Tag not found", Toast.LENGTH_SHORT).show();
+        else {
+            //
+        }
     }
 
     @Override

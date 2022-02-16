@@ -4,8 +4,10 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.widget.Toast;
 
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import javax.inject.Inject;
@@ -26,20 +28,17 @@ public class ScanBeachchairsNfcTagViewModel extends ViewModel {
     public ScanBeachchairsNfcTagViewModel(KorbRepository repository) {
         super();
         this.repository=repository;
-        uid.setValue("");
-        beachchair=repository.getBeachchairByUid(uid.getValue());
-        uid.observeForever(this::setUid);
-        beachchair.observeForever(this::setBeachchair);
+        beachchair=Transformations.switchMap(uid, new Function<String, LiveData<Korb>>() {
+            @Override
+            public LiveData<Korb> apply(String v) {
+                return repository.getBeachchairByUid(v);
+            }
+        });
     }
 
-    private void setBeachchair(Korb korb) {
 
-    }
-
+    //If Tag Uid is changing load beachchair details from DB an update its location
     private void setUid(String s) {
-        //Falsch! Hier wird beachchair ein neues Livedata Objekt zugewiesen.
-        //Es müsste das vorhanden aktuallisiert werden
-        this.beachchair=repository.getBeachchairByUid(s);
     }
 
     public MutableLiveData<String> getUid() {
