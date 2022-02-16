@@ -29,13 +29,13 @@
                 android:id="@+id/beachchair_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{}"/>
+                android:text="@{beachchair.uid}"/>
 
             <TextView
                 android:id="@+id/beachchair_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{}"/>
+                android:text="@{String.valueOf(beachchair.beachchair.number)}"/>
 
             <TextView
                 android:id="@+id/beachchair_location_accuracy"

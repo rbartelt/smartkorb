@@ -65,13 +65,12 @@ public class NfcDialog extends DialogFragment implements NfcAdapter.ReaderCallba
         }
 
         // Success if got to here
-        String finalStrTagId = strTagId;
+        String finalStrTagId = strTagId.replaceAll("\\s","");
         getActivity().runOnUiThread(() -> {
             if (args.getUidType()=="korbuid")
-                nfcDialogViewModel.setUidKorb(strTagId);
+                nfcDialogViewModel.setUidKorb(finalStrTagId);
             if(args.getUidType()=="keyuid")
-                nfcDialogViewModel.setUidKey(strTagId);
-            Toast.makeText(getActivity(), finalStrTagId, Toast.LENGTH_SHORT).show();
+                nfcDialogViewModel.setUidKey(finalStrTagId);
             try {
                 //Wait a second to remove the NFC Tag from Device
                 Thread.sleep(1000);
