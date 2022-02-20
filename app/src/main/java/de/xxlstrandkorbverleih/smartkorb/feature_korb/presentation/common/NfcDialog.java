@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import de.xxlstrandkorbverleih.smartkorb.R;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.common.HexToStringConverter;
 
 public class NfcDialog extends DialogFragment implements NfcAdapter.ReaderCallback {
     private String strTagId;
@@ -54,23 +55,13 @@ public class NfcDialog extends DialogFragment implements NfcAdapter.ReaderCallba
     @Override
     public void onTagDiscovered(Tag tag) {
         //get TagId and convert to String
-        byte[] tag_id = tag.getId();
-        strTagId = new String();
-        for (int i = 0; i < tag_id.length; i++) {
-            String x = Integer.toHexString(((int) tag_id[i] & 0xff));
-            if (x.length() == 1) {
-                x = '0' + x;
-            }
-            strTagId += x + ' ';
-        }
-
-        // Success if got to here
-        String finalStrTagId = strTagId.replaceAll("\\s","");
+        HexToStringConverter converter = new HexToStringConverter();
+        strTagId = converter.convert(tag.getId());
         getActivity().runOnUiThread(() -> {
             if (args.getUidType()=="korbuid")
-                nfcDialogViewModel.setUidKorb(finalStrTagId);
+                nfcDialogViewModel.setUidKorb(strTagId);
             if(args.getUidType()=="keyuid")
-                nfcDialogViewModel.setUidKey(finalStrTagId);
+                nfcDialogViewModel.setUidKey(strTagId);
             try {
                 //Wait a second to remove the NFC Tag from Device
                 Thread.sleep(1000);

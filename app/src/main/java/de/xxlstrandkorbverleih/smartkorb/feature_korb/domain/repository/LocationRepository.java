@@ -1,7 +1,11 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository;
 
-import com.google.android.gms.maps.model.LatLng;
+import android.location.Location;
+
+import androidx.lifecycle.LiveData;
 
 public interface LocationRepository {
-    public LatLng getLocation();
+    public LiveData<Location> getLocationLiveData();
+    public void startLocationRequest();
+    public void stopLocationRequest();
 }
