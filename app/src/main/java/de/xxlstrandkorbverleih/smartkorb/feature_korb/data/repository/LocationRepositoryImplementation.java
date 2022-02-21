@@ -25,6 +25,7 @@ public class LocationRepositoryImplementation implements LocationRepository {
     private static final float SMALLEST_DISPLACEMENT_THRESHOLD_METER = 25;
 
     @NonNull
+    //TODO : Check if LocationManager.requestLocationUpdates() provides more accurate results
     private final FusedLocationProviderClient fusedLocationProviderClient;
 
     @NonNull

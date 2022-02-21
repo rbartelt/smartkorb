@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="beachchair"
             type="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.scanBeachchairsNfcTag.ScanBeachchairsNfcTagViewModel" />
@@ -12,12 +14,28 @@
         android:orientation="vertical"
         android:weightSum="100">
 
-        <fragment
+        <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/korb_map_scan_location"
-            android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="100" />
+            android:layout_height="400px"
+            android:layout_weight="70"
+            app:initMap="@{beachchair.mMapLatLng}"/>
+        <!--
+map:mapType="0" Specifies a change to the initial map type
+map:zOrderOnTop="true"  Control whether the map view's surface is placed on top of its window
+map:useVieLifecycle="true" When using a MapFragment, this flag specifies whether the lifecycle of the map should be tied to the fragment's view or the fragment itself
+map:uiCompass="true" Enables or disables the compass
+map:uiRotateGestures="true" Sets the preference for whether rotate gestures should be enabled or disabled
+map:uiScrollGestures="true" Sets the preference for whether scroll gestures should be enabled or disabled
+map:uiTiltGestures="true" Sets the preference for whether tilt gestures should be enabled or disabled
+map:uiZoomGestures="true" Sets the preference for whether zoom gestures should be enabled or disabled
+map:uiZoomControls="true" Enables or disables the zoom controls
+map:liteMode="true" Specifies whether the map should be created in lite mode
+map:uiMapToolbar="true" Specifies whether the mapToolbar should be enabled
+map:ambientEnabled="true" Specifies whether ambient-mode styling should be enabled
+map:cameraMinZoomPreference="0.0" Specifies a preferred lower bound for camera zoom
+map:cameraMaxZoomPreference="1.0" Specifies a preferred upper bound for camera zoom -->
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,19 +47,19 @@
                 android:id="@+id/beachchair_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{beachchair.uid}"/>
+                android:text="@{beachchair.uid}" />
 
             <TextView
                 android:id="@+id/beachchair_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(beachchair.beachchair.number)}"/>
+                android:text="@{String.valueOf(beachchair.beachchair.number)}" />
 
             <TextView
                 android:id="@+id/beachchair_location_accuracy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{beachchair.gpsMessageLiveData}"/>
+                android:text="@{beachchair.gpsMessageLiveData}" />
         </LinearLayout>
     </LinearLayout>
 </layout>
