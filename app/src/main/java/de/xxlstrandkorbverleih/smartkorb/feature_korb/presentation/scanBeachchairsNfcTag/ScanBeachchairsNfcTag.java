@@ -41,6 +41,8 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
     private String strTagId;
     private MapView mMapView;
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+    private static final String TAG = "ScanBeachchairsNfcTag";
+
 
 
     //////////////////////////////////////////////////////////////////////////////
@@ -53,8 +55,8 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_scan_beachchairs_location,container, false);
         binding.setLifecycleOwner(getViewLifecycleOwner());
         viewModel=new ViewModelProvider(this).get(ScanBeachchairsNfcTagViewModel.class);
-        binding.setVariable(BR.beachchair, viewModel);
-        viewModel.getBeachchair().observe(getViewLifecycleOwner(),this::onBeachchairChanged);
+        binding.setVariable(BR.viewmodel, viewModel);
+        //viewModel.getBeachchair().observe(getViewLifecycleOwner(),this::onBeachchairChanged);
         enableReaderMode();
         mMapView = binding.getRoot().findViewById(R.id.korb_map_scan_location);
         initGoogleMap(savedInstanceState);
@@ -184,7 +186,7 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
         if(korb==null)
             Toast.makeText(getContext(), "Tag not found", Toast.LENGTH_SHORT).show();
         else {
-            //
+            Toast.makeText(getContext(), String.valueOf(korb.getNumber()), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -56,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
 
 
+        //Request GPS Permission
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0
+        );
+
+
     }
 
     @Override

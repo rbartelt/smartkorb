@@ -2,15 +2,13 @@ package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.scanBeachcha
 
 import android.annotation.SuppressLint;
 import android.location.Location;
+import android.util.Log;
 
-import androidx.arch.core.util.Function;
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
@@ -24,14 +22,17 @@ import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository.Location
 public class ScanBeachchairsNfcTagViewModel extends ViewModel {
     private KorbRepository repository;
     private final LocationRepository locationRepository;
-
     private PermissionChecker permissionChecker;
 
-    private LiveData<Korb> beachchair = new MutableLiveData<>();
-    private MutableLiveData<String> uid = new MutableLiveData<>();
-    private final LiveData<String> gpsMessageLiveData;
-    //for testing
-    public ObservableField<LatLng>  mMapLatLng = new ObservableField<>();
+    //exposed to View
+    private MediatorLiveData<Korb> mBeachchair = new MediatorLiveData<>();
+
+    private MutableLiveData<String> mBeachchairUid = new MutableLiveData<>();
+    private LiveData<Location> mLocation = new MutableLiveData<>();
+    private LiveData<Korb> korb= new MutableLiveData<>();
+
+    private static final String TAG = "ScanBeachchairsNfcTagViewModel";
+
 
     @Inject
     public ScanBeachchairsNfcTagViewModel(KorbRepository repository, LocationRepository locationRepository, PermissionChecker permissionChecker) {
@@ -39,37 +40,40 @@ public class ScanBeachchairsNfcTagViewModel extends ViewModel {
         this.repository=repository;
         this.locationRepository=locationRepository;
         this.permissionChecker=permissionChecker;
-
-        beachchair.observeForever(this::setLocation);
-
-        mMapLatLng.set(new LatLng(0,0));
-
-
-
-
-
-        beachchair=Transformations.switchMap(uid, v -> repository.getBeachchairByUid(v));
-
-        gpsMessageLiveData = Transformations.map(locationRepository.getLocationLiveData(), location -> {
-            if (location == null) {
-                return "Je suis perdu...";
-            } else {
-                return "Je suis aux coordonnées (" + location.getLatitude() + "," + location.getLongitude() + ")";
-            }
-        });
+        mBeachchairUid.observeForever(this::setLocationToBeachchair);
     }
 
-    private void setLocation(Korb korb) {
-        Location location = locationRepository.getLocationLiveData().getValue();
-        Korb updateKorb = new Korb(korb.getNumber(), korb.getType(), location.getLatitude(),location.getLongitude(), location.getAccuracy(), korb.getKeyUid(), korb.getKorbUid());
-        repository.update(updateKorb);
-        //test
-        mMapLatLng.set(new LatLng(location.getLatitude(),location.getLongitude()));
+    /**
+     * Calls Repositry to get Beachchair with his Uid
+     * @param beachchairUid
+     */
+    private void setLocationToBeachchair(String beachchairUid) {
+        //TODO: Check if its better to implement it in seperate Class because korb and mLocation are Membervariables and were not reset after Methode is finish.
+        korb =Transformations.switchMap(mBeachchairUid, v -> repository.getBeachchairByUid(beachchairUid));
+        mLocation =Transformations.switchMap(mBeachchairUid, v -> locationRepository.getLocationLiveData());
+        mBeachchair.addSource(korb, value-> mBeachchair.setValue(combineLocationAndBeachchair(korb, mLocation).getValue()));
+        mBeachchair.addSource(mLocation, value-> mBeachchair.setValue(combineLocationAndBeachchair(korb, mLocation).getValue()));
     }
 
-
-    public LiveData<String> getGpsMessageLiveData() {
-        return gpsMessageLiveData;
+    private LiveData<Korb> combineLocationAndBeachchair(LiveData<Korb> bechchair, LiveData<Location> location) {
+        MutableLiveData<Korb> result = new MutableLiveData<>();
+        if(bechchair.getValue()==null || location.getValue()==null) {
+            Log.i(TAG, "not completed");
+            return bechchair;
+        }
+        else {
+            Korb updateKorb = new Korb(bechchair.getValue().getNumber(), bechchair.getValue().getType(),
+                    location.getValue().getLatitude(),location.getValue().getLongitude(), Math.round(location.getValue().getAccuracy()),
+                    bechchair.getValue().getKeyUid(), bechchair.getValue().getKorbUid());
+            updateKorb.setId(bechchair.getValue().getId());
+            repository.update(updateKorb);
+            result.setValue(updateKorb);
+            Log.i(TAG,"Beachchair updated");
+            //On successfull update remove Observer to avoid loop
+            mBeachchair.removeSource(bechchair);
+            mBeachchair.removeSource(location);
+            return result;
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -82,19 +86,17 @@ public class ScanBeachchairsNfcTagViewModel extends ViewModel {
         }
     }
 
-    //If Tag Uid is changing load beachchair details from DB an update its location
-    private void setUid(String s) {
-    }
-
-    public MutableLiveData<String> getUid() {
-        return uid;
-    }
-
     public LiveData<Korb> getBeachchair() {
-        return beachchair;
+        return mBeachchair;
     }
 
     public void setUidString(String uid) {
-        this.uid.setValue(uid);
+        this.mBeachchairUid.setValue(uid);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        locationRepository.stopLocationRequest();
     }
 }

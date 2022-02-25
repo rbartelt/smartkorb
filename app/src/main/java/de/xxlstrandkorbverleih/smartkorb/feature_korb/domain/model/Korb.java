@@ -14,11 +14,11 @@ public class Korb {
     private String type;                //which type normal, xl or xxl
     private double latitude;            //latitude location
     private double longitude;           //longitude location
-    private double accuracy;            //accuracy of location
+    private int accuracy;            //accuracy of location
     private String keyUid;              //UID of Key NFC Tag
     private String korbUid;              //UID of Korb NFC Tag
 
-    public Korb(int number, String type, double latitude, double longitude, double accuracy, String keyUid, String korbUid) {
+    public Korb(int number, String type, double latitude, double longitude, int accuracy, String keyUid, String korbUid) {
         this.number = number;
         this.type = type;
         this.latitude = latitude;
@@ -52,7 +52,7 @@ public class Korb {
         return longitude;
     }
 
-    public double getAccuracy() {
+    public int getAccuracy() {
         return accuracy;
     }
 

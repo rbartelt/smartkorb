@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 
-@Database(entities = {Korb.class}, version = 2)
+@Database(entities = {Korb.class}, version = 3)
 public abstract class KorbDatabase extends RoomDatabase {
 
     private static KorbDatabase instance;
