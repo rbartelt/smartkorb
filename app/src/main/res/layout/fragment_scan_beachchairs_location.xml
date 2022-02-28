@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,18 +10,10 @@
             type="de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.scanBeachchairsNfcTag.ScanBeachchairsNfcTagViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="100">
+        android:layout_height="match_parent">
 
-        <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/korb_map_scan_location"
-            android:layout_width="match_parent"
-            android:layout_height="400px"
-            android:layout_weight="70"
-            app:initMap="@{viewmodel.beachchair}"/>
         <!--
 map:mapType="0" Specifies a change to the initial map type
 map:zOrderOnTop="true"  Control whether the map view's surface is placed on top of its window
@@ -37,22 +31,119 @@ map:cameraMinZoomPreference="0.0" Specifies a preferred lower bound for camera z
 map:cameraMaxZoomPreference="1.0" Specifies a preferred upper bound for camera zoom -->
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:orientation="vertical">
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/korb_map_scan_location"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:initMap="@{viewmodel.beachchair}"
 
-            <TextView
-                android:id="@+id/beachchair_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-            <TextView
-                android:id="@+id/beachchair_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.65"
 
-        </LinearLayout>
-    </LinearLayout>
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="1" />
+
+        <TextView
+            android:id="@+id/beachchair_type"
+            android:text="@{viewmodel.beachchair.type}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/korb_map_scan_location"
+
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.05"
+
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/beachchair_number"
+            android:text="@{String.valueOf(viewmodel.beachchair.number)}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/korb_map_scan_location"
+
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.05"
+
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <EditText
+            android:id="@+id/beachchair_note"
+            android:text="Notizen"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/beachchair_number"
+
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.2"
+
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="1" />
+
+        <TextView
+            android:id="@+id/rental_start"
+            android:text="Mietbeginn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/beachchair_note"
+
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.05"
+
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/rental_end"
+            android:text="Mietende"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/beachchair_note"
+
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.05"
+
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/rental_date"
+            android:text="Mietdatum"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rental_start"
+
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.05"
+
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/rental_employee"
+            android:text="Vermieter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rental_end"
+
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.05"
+
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

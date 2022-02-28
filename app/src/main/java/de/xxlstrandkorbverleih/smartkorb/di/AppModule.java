@@ -10,7 +10,7 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.common.PermissionChecker;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository.KorbRepositoryImplementation;
-import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository.LocationRepositoryImplementation;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository.LocationRepositoryFusedLocationProvider;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository.KorbRepository;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository.LocationRepository;
 
@@ -27,7 +27,7 @@ public class AppModule {
     @Singleton
     @Provides
     LocationRepository provideLocationRepository(Application application) {
-        return new LocationRepositoryImplementation(application);
+        return new LocationRepositoryFusedLocationProvider(application);
     }
 
     @Singleton

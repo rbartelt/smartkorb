@@ -20,9 +20,9 @@ import javax.inject.Inject;
 
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository.LocationRepository;
 
-public class LocationRepositoryImplementation implements LocationRepository {
-    private static final int LOCATION_REQUEST_INTERVAL_MS = 10_000;
-    private static final float SMALLEST_DISPLACEMENT_THRESHOLD_METER = 25;
+public class LocationRepositoryFusedLocationProvider implements LocationRepository {
+    private static final int LOCATION_REQUEST_INTERVAL_MS = 1;
+    private static final float SMALLEST_DISPLACEMENT_THRESHOLD_METER = 1;
 
     @NonNull
     //TODO : Check if LocationManager.requestLocationUpdates() provides more accurate results
@@ -34,7 +34,7 @@ public class LocationRepositoryImplementation implements LocationRepository {
     private LocationCallback callback;
 
     @Inject
-    public LocationRepositoryImplementation(@NonNull Application application) {
+    public LocationRepositoryFusedLocationProvider(@NonNull Application application) {
         this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application);
     }
 

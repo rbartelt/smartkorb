@@ -1,7 +1,5 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.scanBeachchairsNfcTag;
 
-import static de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.booking.BookingFragment.MAPVIEW_BUNDLE_KEY;
-
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -44,7 +42,6 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
     private static final String TAG = "ScanBeachchairsNfcTag";
 
 
-
     //////////////////////////////////////////////////////////////////////////////
     //Lifecyclemethods
 
@@ -52,11 +49,11 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //binding = FragmentScanBeachchairsLocationBinding.inflate(getLayoutInflater());
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_scan_beachchairs_location,container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_scan_beachchairs_location, container, false);
         binding.setLifecycleOwner(getViewLifecycleOwner());
-        viewModel=new ViewModelProvider(this).get(ScanBeachchairsNfcTagViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ScanBeachchairsNfcTagViewModel.class);
         binding.setVariable(BR.viewmodel, viewModel);
-        //viewModel.getBeachchair().observe(getViewLifecycleOwner(),this::onBeachchairChanged);
+        viewModel.getBeachchair().observe(getViewLifecycleOwner(), this::onBeachchairChanged);
         enableReaderMode();
         mMapView = binding.getRoot().findViewById(R.id.korb_map_scan_location);
         initGoogleMap(savedInstanceState);
@@ -85,7 +82,7 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
     @Override
     public void onDestroy() {
         super.onDestroy();
-        binding=null;
+        binding = null;
         mMapView.onDestroy();
     }
 
@@ -134,6 +131,7 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        //googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         //TODO: check for Permissions?
         //setLocation
     }
@@ -142,7 +140,7 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //Helper Methods
 
-    private void initGoogleMap(Bundle savedInstanceState){
+    private void initGoogleMap(Bundle savedInstanceState) {
         // *** IMPORTANT ***
         // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
         // objects or sub-Bundles.
@@ -183,11 +181,8 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
     }
 
     private void onBeachchairChanged(Korb korb) {
-        if(korb==null)
+        if (korb == null)
             Toast.makeText(getContext(), "Tag not found", Toast.LENGTH_SHORT).show();
-        else {
-            Toast.makeText(getContext(), String.valueOf(korb.getNumber()), Toast.LENGTH_SHORT).show();
-        }
     }
-
 }
+

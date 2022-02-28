@@ -23,11 +23,13 @@ public final class DataBindingAdapters {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     // Add a marker
+                    //googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                     mapView.onResume();
                     LatLng position = new LatLng(korb.getLatitude(),korb.getLongitude());
                     googleMap.addMarker(new MarkerOptions().position(position).title(korb.getType()+String.valueOf(korb.getNumber())));
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 19);
-                    googleMap.animateCamera(cameraUpdate);
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 21);
+                    googleMap.moveCamera(cameraUpdate);
+                    //googleMap.animateCamera(cameraUpdate);
                 }
             });
         }
