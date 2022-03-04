@@ -53,7 +53,7 @@ public class ScanBeachchairsNfcTag extends Fragment implements NfcAdapter.Reader
         binding.setLifecycleOwner(getViewLifecycleOwner());
         viewModel = new ViewModelProvider(this).get(ScanBeachchairsNfcTagViewModel.class);
         binding.setVariable(BR.viewmodel, viewModel);
-        viewModel.getBeachchair().observe(getViewLifecycleOwner(), this::onBeachchairChanged);
+        //viewModel.getBeachchair().observe(getViewLifecycleOwner(), this::onBeachchairChanged);
         enableReaderMode();
         mMapView = binding.getRoot().findViewById(R.id.korb_map_scan_location);
         initGoogleMap(savedInstanceState);

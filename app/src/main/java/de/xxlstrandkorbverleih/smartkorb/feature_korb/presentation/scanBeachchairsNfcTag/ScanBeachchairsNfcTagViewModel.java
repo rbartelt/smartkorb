@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -25,6 +27,7 @@ public class ScanBeachchairsNfcTagViewModel extends ViewModel {
     private PermissionChecker permissionChecker;
 
     //exposed to View
+    private LiveData<List<Korb>> allBeachchairs;
     private MediatorLiveData<Korb> mBeachchair = new MediatorLiveData<>();
 
     private MutableLiveData<String> mBeachchairUid = new MutableLiveData<>();
@@ -40,6 +43,7 @@ public class ScanBeachchairsNfcTagViewModel extends ViewModel {
         this.repository=repository;
         this.locationRepository=locationRepository;
         this.permissionChecker=permissionChecker;
+        allBeachchairs = repository.getAllKörbe();
         mBeachchairUid.observeForever(this::setLocationToBeachchair);
     }
 
@@ -84,6 +88,11 @@ public class ScanBeachchairsNfcTagViewModel extends ViewModel {
         } else {
             locationRepository.startLocationRequest();
         }
+    }
+
+
+    public LiveData<List<Korb>> getAllBeachchairs() {
+        return allBeachchairs;
     }
 
     public LiveData<Korb> getBeachchair() {

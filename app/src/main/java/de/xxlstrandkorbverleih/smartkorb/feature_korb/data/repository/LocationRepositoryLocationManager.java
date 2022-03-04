@@ -47,5 +47,9 @@ public class LocationRepositoryLocationManager implements LocationRepository, Lo
     public void onLocationChanged(@NonNull Location location) {
         if(location.getAccuracy()<=5)
             locationMutableLiveData.setValue(location);
+        else {
+            //TODO: send Event to inform the Consumer that Accuracy is not sufficient
+
+        }
     }
 }
