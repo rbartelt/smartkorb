@@ -3,6 +3,7 @@ package de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository;
 import android.app.Application;
 import android.location.Location;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
@@ -21,8 +22,8 @@ import javax.inject.Inject;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository.LocationRepository;
 
 public class LocationRepositoryFusedLocationProvider implements LocationRepository {
-    private static final int LOCATION_REQUEST_INTERVAL_MS = 1;
-    private static final float SMALLEST_DISPLACEMENT_THRESHOLD_METER = 1;
+    private static final int LOCATION_REQUEST_INTERVAL_MS = 0;
+    private static final float SMALLEST_DISPLACEMENT_THRESHOLD_METER = 0;
 
     @NonNull
     //TODO : Check if LocationManager.requestLocationUpdates() provides more accurate results
@@ -35,6 +36,7 @@ public class LocationRepositoryFusedLocationProvider implements LocationReposito
 
     @Inject
     public LocationRepositoryFusedLocationProvider(@NonNull Application application) {
+        Log.i("LocationRepositoryFusedLocationProvider","FusedLocationProvider Constructor");
         this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application);
     }
 
@@ -54,7 +56,7 @@ public class LocationRepositoryFusedLocationProvider implements LocationReposito
                 }
             };
         }
-
+        //Warum wird das Callback hier von Updates entfernt
         fusedLocationProviderClient.removeLocationUpdates(callback);
 
         fusedLocationProviderClient.requestLocationUpdates(
