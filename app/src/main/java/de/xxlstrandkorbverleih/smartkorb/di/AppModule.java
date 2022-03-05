@@ -3,6 +3,8 @@ package de.xxlstrandkorbverleih.smartkorb.di;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.room.Room;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -13,6 +15,8 @@ import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.common.PermissionChecker;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.data_source.KorbDao;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.data_source.KorbDatabase;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository.KorbRepositoryImplementation;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository.LocationRepositoryFusedLocationProvider;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.data.repository.LocationRepositoryLocationManager;
@@ -25,8 +29,8 @@ public class AppModule {
 
     @Singleton
     @Provides
-    KorbRepository provideKorbRepository(Application application) {
-        return new KorbRepositoryImplementation(application);
+    KorbRepository provideKorbRepository(Application application, KorbDao korbDao) {
+        return new KorbRepositoryImplementation(application, korbDao);
     }
 
     /*
@@ -46,6 +50,18 @@ public class AppModule {
     @Provides
     PermissionChecker providePermissionChecker(Application application) {
         return new PermissionChecker(application);
+    }
+
+    @Singleton
+    @Provides
+    KorbDatabase provideKorbDatabase(@ApplicationContext Context context) {
+      return Room.databaseBuilder(context.getApplicationContext(), KorbDatabase.class, "korb_database").fallbackToDestructiveMigration().build();
+    }
+
+    @Singleton
+    @Provides
+    KorbDao provideKorbDao(KorbDatabase db) {
+        return db.korbDao();
     }
 }
 

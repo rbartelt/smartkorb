@@ -51,8 +51,10 @@ public class LocationRepositoryFusedLocationProvider implements LocationReposito
                 @Override
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     Location location = locationResult.getLastLocation();
-
-                    locationMutableLiveData.setValue(location);
+                    //locationResult.getLocations();
+                    Log.i("Accurracy : ", String.valueOf(location.getAccuracy()));
+                    if(location.getAccuracy()<5)
+                        locationMutableLiveData.setValue(location);
                 }
             };
         }

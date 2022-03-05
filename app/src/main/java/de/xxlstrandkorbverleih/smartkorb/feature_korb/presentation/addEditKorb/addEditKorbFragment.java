@@ -151,14 +151,14 @@ public class addEditKorbFragment extends Fragment {
         } else {
             //insert new korb
             if (korbViewModel.getSelectedKorb().getValue() == null) {
-                Korb korb = new Korb(Integer.parseInt(number), type, 1, 1, 1,uidKey, uidKorb);
+                Korb korb = new Korb(Integer.parseInt(number), type, 0, 0, 0,uidKey, uidKorb);
                 Result result = korbViewModel.insert(korb);
                 Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
                 return result.isSuccess();
             }
             //update existing korb
             else {
-                Korb korb = new Korb(Integer.valueOf(number), type, 1, 1, 1, uidKey, uidKorb);
+                Korb korb = new Korb(Integer.valueOf(number), type, 0, 0, 0, uidKey, uidKorb);
                 korb.setId(korbViewModel.getSelectedKorb().getValue().getId());
                 Result result = korbViewModel.update(korb);
                 Toast.makeText(getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();

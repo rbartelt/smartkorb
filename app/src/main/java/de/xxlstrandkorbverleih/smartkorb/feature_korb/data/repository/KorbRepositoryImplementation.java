@@ -20,9 +20,8 @@ public class KorbRepositoryImplementation implements KorbRepository {
     private LiveData<List<Korb>> allKörbe;
 
     @Inject
-    public KorbRepositoryImplementation(Application application) {
-        KorbDatabase database = KorbDatabase.getInstance(application);      //get Database
-        korbDao = database.korbDao();                                       //create DAO
+    public KorbRepositoryImplementation(Application application, KorbDao korbDao1) {
+        korbDao = korbDao1;
         allKörbe = korbDao.getAllKörbe();                                   //create Livedata to observe?
     }
 
