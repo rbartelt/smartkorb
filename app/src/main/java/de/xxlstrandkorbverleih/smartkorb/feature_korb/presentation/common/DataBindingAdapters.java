@@ -2,7 +2,9 @@ package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.common;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -57,6 +59,14 @@ public final class DataBindingAdapters {
                                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 21); //if only grey Tiles displayed reduce zoom
                                 googleMap.moveCamera(cameraUpdate);
                                 //googleMap.animateCamera(cameraUpdate);
+                                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(@NonNull Marker marker) {
+                                        Log.i("DataBindingAdapter", marker.getTitle());
+
+                                        return false;
+                                    }
+                                });
                             }
                         }
                     }

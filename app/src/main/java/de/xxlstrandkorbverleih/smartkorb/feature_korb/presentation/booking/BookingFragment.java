@@ -1,12 +1,14 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.booking;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
@@ -34,7 +37,7 @@ import de.xxlstrandkorbverleih.smartkorb.R;
 import de.xxlstrandkorbverleih.smartkorb.databinding.FragmentBookingBinding;
 
 @AndroidEntryPoint
-public class BookingFragment extends Fragment implements OnMapReadyCallback {
+public class BookingFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     /////////////////////////////////////////////////////////////////////////////
     //Membervariables
@@ -117,6 +120,7 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //Override Methods
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap map) {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -132,7 +136,8 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        //map.setMyLocationEnabled(true);
+        map.setMyLocationEnabled(true);
+        map.setOnMarkerClickListener(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,5 +179,11 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback {
         mMapView.onCreate(mapViewBundle);
 
         mMapView.getMapAsync(this);
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        Toast.makeText(getContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
+        return false;
     }
 }
