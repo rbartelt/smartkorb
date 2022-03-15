@@ -2,6 +2,7 @@ package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.common;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;

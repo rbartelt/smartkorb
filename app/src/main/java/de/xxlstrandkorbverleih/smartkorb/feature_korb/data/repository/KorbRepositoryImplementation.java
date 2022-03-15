@@ -25,8 +25,9 @@ public class KorbRepositoryImplementation implements KorbRepository {
         allKörbe = korbDao.getAllKörbe();                                   //create Livedata to observe?
     }
 
-    public LiveData<List<Korb>> getKorbWithKeyUid(String keyUid) {
-        return korbDao.getKorbWithKeyUid(keyUid);
+    @Override
+    public LiveData<Korb> getBeachchairByNumber(int beachchairNumber) {
+        return korbDao.getBeachchairByNumber(beachchairNumber);
     }
 
     @Override

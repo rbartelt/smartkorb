@@ -1,7 +1,5 @@
 package de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.repository;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -19,7 +17,7 @@ public interface KorbRepository {
 
     public LiveData<List<Korb>> getAllKörbe();
 
-    public LiveData<List<Korb>> getKorbWithKeyUid(String keyUid);
-
     public LiveData<Korb> getBeachchairByUid(String beachchairUid);
+
+    public LiveData<Korb> getBeachchairByNumber(int beachchairNumber);
 }

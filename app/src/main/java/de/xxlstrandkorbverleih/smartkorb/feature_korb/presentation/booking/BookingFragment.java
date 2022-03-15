@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,35 +17,43 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import de.xxlstrandkorbverleih.smartkorb.BR;
 import de.xxlstrandkorbverleih.smartkorb.R;
-import de.xxlstrandkorbverleih.smartkorb.databinding.FragmentBookingBinding;
+import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 
 @AndroidEntryPoint
 public class BookingFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     /////////////////////////////////////////////////////////////////////////////
     //Membervariables
-    private FragmentBookingBinding binding;
     private BookingFragmentViewModel viewModel;
     private TextView date;
     private MapView mMapView;
+    private GoogleMap mGoogleMap;
     private RecyclerView mKorbRecyclerView;
 
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -55,18 +64,23 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback, Goo
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_booking, container, false);
+        /*binding = DataBindingUtil.inflate(inflater, R.layout.fragment_booking, container, false);
         binding.setLifecycleOwner(getViewLifecycleOwner());
         viewModel = new ViewModelProvider(this).get(BookingFragmentViewModel.class);
         binding.setVariable(BR.viewmodel, viewModel);
         mMapView = binding.getRoot().findViewById(R.id.korb_map);
         initGoogleMap(savedInstanceState);
-        return binding.getRoot();
+        return binding.getRoot();*/
+        return inflater.inflate(R.layout.fragment_booking,container, false);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mMapView = view.findViewById(R.id.korb_map);
+        initGoogleMap(savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(BookingFragmentViewModel.class);
 
     }
 
@@ -136,8 +150,11 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback, Goo
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        map.setMyLocationEnabled(true);
-        map.setOnMarkerClickListener(this);
+        mGoogleMap = map;
+        mGoogleMap.setMyLocationEnabled(true);
+        viewModel.getAllBeachchairs().observe(getViewLifecycleOwner(), this::onChanged);
+        viewModel.getmSelectedBeachchair().observe(getViewLifecycleOwner(),this::onSelectedBeachchairChanged);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,13 +194,52 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback, Goo
         }
 
         mMapView.onCreate(mapViewBundle);
-
         mMapView.getMapAsync(this);
     }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-        Toast.makeText(getContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
+        viewModel.setSelectedBeachchair(Integer.valueOf(marker.getTitle()));
         return false;
+    }
+
+    private void onChanged(List<Korb> beachchairs) {
+        mMapView.onResume();
+        ListIterator<Korb> listIterator = beachchairs.listIterator();
+        while (listIterator.hasNext() && mGoogleMap != null) {
+            Korb korb = listIterator.next();
+            if (korb.getLongitude() != 0 && korb.getLatitude() != 0) {
+                LatLng position = new LatLng(korb.getLatitude(), korb.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions();
+                switch (korb.getType()) {
+                    case "Normal":
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                        break;
+                    case "XL":
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        break;
+                    case "XXL":
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                        break;
+                }
+                markerOptions.position(position);
+                markerOptions.title(String.valueOf(korb.getNumber()));
+                mGoogleMap.addMarker(markerOptions);
+                Log.d("DataBindingAdapter", String.valueOf(listIterator.nextIndex()));
+                //if last element in list position Camera
+                if (listIterator.nextIndex() == viewModel.getAllBeachchairs().getValue().size()) {
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 21); //if only grey Tiles displayed reduce zoom
+                    mGoogleMap.moveCamera(cameraUpdate);
+                    //googleMap.animateCamera(cameraUpdate);
+                    mGoogleMap.setOnMarkerClickListener(this);
+                }
+            }
+        }
+
+    }
+
+    private void onSelectedBeachchairChanged(Korb korb) {
+        if(korb != null)
+            Toast.makeText(getContext(), korb.getType() + String.valueOf(korb.getNumber()), Toast.LENGTH_SHORT).show();
     }
 }
