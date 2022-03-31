@@ -2,7 +2,16 @@ package de.xxlstrandkorbverleih.smartkorb.feature_korb.presentation.booking;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,13 +23,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.util.Pair;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.common.util.MapUtils;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,18 +37,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import de.xxlstrandkorbverleih.smartkorb.BR;
 import de.xxlstrandkorbverleih.smartkorb.R;
 import de.xxlstrandkorbverleih.smartkorb.feature_korb.domain.model.Korb;
 
@@ -71,7 +71,7 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback, Goo
         mMapView = binding.getRoot().findViewById(R.id.korb_map);
         initGoogleMap(savedInstanceState);
         return binding.getRoot();*/
-        return inflater.inflate(R.layout.fragment_booking,container, false);
+        return inflater.inflate(R.layout.fragment_booking_new,container, false);
 
     }
 
@@ -205,23 +205,14 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback, Goo
 
     private void onChanged(List<Korb> beachchairs) {
         mMapView.onResume();
+
         ListIterator<Korb> listIterator = beachchairs.listIterator();
         while (listIterator.hasNext() && mGoogleMap != null) {
             Korb korb = listIterator.next();
             if (korb.getLongitude() != 0 && korb.getLatitude() != 0) {
                 LatLng position = new LatLng(korb.getLatitude(), korb.getLongitude());
                 MarkerOptions markerOptions = new MarkerOptions();
-                switch (korb.getType()) {
-                    case "Normal":
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                        break;
-                    case "XL":
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                        break;
-                    case "XXL":
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                        break;
-                }
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(createMarker(korb)));
                 markerOptions.position(position);
                 markerOptions.title(String.valueOf(korb.getNumber()));
                 mGoogleMap.addMarker(markerOptions);
@@ -241,5 +232,26 @@ public class BookingFragment extends Fragment implements OnMapReadyCallback, Goo
     private void onSelectedBeachchairChanged(Korb korb) {
         if(korb != null)
             Toast.makeText(getContext(), korb.getType() + String.valueOf(korb.getNumber()), Toast.LENGTH_SHORT).show();
+    }
+
+    private Bitmap createMarker(Korb korb) {
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = Bitmap.createBitmap(80,80,conf);
+        Canvas canvas1 = new Canvas(bitmap);
+        Paint color = new Paint();
+        color.setTextSize(45);
+        switch (korb.getType()) {
+            case "Normal":
+                color.setColor(Color.RED);
+                break;
+            case "XL":
+                color.setColor(Color.BLUE);
+                break;
+            case "XXL":
+                color.setColor(Color.GREEN);
+                break;
+        }
+        canvas1.drawText(String.valueOf(korb.getNumber()), 30,40,color);
+        return bitmap;
     }
 }

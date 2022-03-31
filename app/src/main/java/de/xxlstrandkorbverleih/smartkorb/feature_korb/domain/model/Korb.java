@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "korb_table")
 public class Korb {
 
+    public Korb(){}
+
     @PrimaryKey(autoGenerate = true)
     private int id;                     //primary key db
 
@@ -79,4 +81,31 @@ public class Korb {
             return true;
     }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setAccuracy(int accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public void setKeyUid(String keyUid) {
+        this.keyUid = keyUid;
+    }
+
+    public void setKorbUid(String korbUid) {
+        this.korbUid = korbUid;
+    }
 }

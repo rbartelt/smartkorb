@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "67211651073",
+    "project_id": "smartkorb",
+    "storage_bucket": "smartkorb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67211651073:android:0a41c5ce79ab269942f800",
+        "android_client_info": {
+          "package_name": "de.xxlstrandkorbverleih.smartkorb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67211651073-h15shcn2fujm9sdv7vhavbbpe69irco9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc4inDzjpmHCs3xqym-NUGJ5Jqh89_o0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67211651073-h15shcn2fujm9sdv7vhavbbpe69irco9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
